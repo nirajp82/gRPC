@@ -61,6 +61,7 @@ Like in JSON and XML, when using message types, we can build hierarchies of mess
 <p>The field tags are a numeric representation of the field, and this enables us to have richly defined field names in the definition without sending them through the wire.
 There are certain things to be considered when working with field tags. Firstly, the field tags must be unique inside a message. Secondly, they have to be integers. Thirdly, if a field is to be removed from the definition that’s already in use, its tag must be declared as reserved to prevent it from being redefined. Example: reserved 8; </p>
 
+## Core concepts, architecture and lifecycle
 ### Service definition
 <p>Like many RPC systems, gRPC is based around the idea of defining a service, specifying the methods that can be called remotely with their parameters and return types. By default, gRPC uses protocol buffers as the Interface Definition Language (IDL) for describing both the service interface and the structure of the payload messages. It is possible to use other alternatives if desired.</p>
 <p>gRPC lets you define four kinds of service method:</p>
@@ -84,13 +85,18 @@ rpc LotsOfGreetings(stream HelloRequest) returns (HelloResponse);
 ```
 rpc BidiHello(stream HelloRequest) returns (stream HelloResponse);
 ```
-<h5></h5>
+
+### Using the API 
+<p>Starting from a service definition in a .proto file, gRPC provides protocol buffer compiler plugins that generate client- and server-side code. gRPC users typically call these APIs on the client side and implement the corresponding API on the server side.</p>
+<p>On the server side, the server implements the methods declared by the service and runs a gRPC server to handle client calls. The gRPC infrastructure decodes incoming requests, executes service methods, and encodes service responses.</p>
+<p>On the client side, the client has a local object known as stub (for some languages, the preferred term is client) that implements the same methods as the service. The client can then just call those methods on the local object, wrapping the parameters for the call in the appropriate protocol buffer message type - gRPC looks after sending the request(s) to the server and returning the server’s protocol buffer response(s).</p>
+
+#### Synchronous vs. asynchronous
+<p>Synchronous RPC calls that block until a response arrives from the server are the closest approximation to the abstraction of a procedure call that RPC aspires to. On the other hand, networks are inherently asynchronous and in many scenarios it’s useful to be able to start RPCs without blocking the current thread.</p>
+<p>The gRPC programming API in most languages comes in both synchronous and asynchronous flavors. You can find out more in each language’s tutorial and reference documentation.</p>
+
 <p></p>
-```
-
-```
-
-
+<p></p>
 
 
 
@@ -105,3 +111,4 @@ References:
 * https://stackoverflow.com/questions/52146721/how-are-protocol-buffers-faster-than-xml-and-json
 * https://en.wikipedia.org/wiki/Protocol_Buffers
 * https://betterprogramming.pub/understanding-protocol-buffers-43c5bced0d47
+* https://grpc.io/docs/what-is-grpc/core-concepts/
