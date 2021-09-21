@@ -18,6 +18,60 @@ Protocol Buffers (Protobuf) is a open source cross-platform library used to seri
   * <h5> Binary transfer format:</h5>
     <p> The Protobuf is a binary transfer format, meaning the data is transmitted as a binary. This improves the speed of transmission more than the raw string because it takes less space and bandwidth. Since the data is compressed, the CPU usage will also be less. </p>
     <p> The only disadvantage is the Protobuf files or data isn’t as human-readable as JSON or XML </p>
+  * <h5> Separation of context And data:</h5>
+    <p>In JSON and XML, the data and context aren’t separate — whereas in Protobuf, it is separate. Consider a JSON example.</p>
+    ```
+    {
+    first_name: "Arun",
+    last_name: "Kurian"
+    }
+    ```
+    <p>In this example, the transmitted data has got an object literal with two properties, first_name and last_name, with values Arun and Kurian. This is highly readable, but this can take up more space. Here, every JSON message has to provide both of these pieces every single time. As our data grows, the transmission time will be increased significantly.</p>
+    <p>But in the case of Protobufs, things are different. We first define a message in a configuration file like this:</p>
+    ```
+      {
+        string first_name = 1;
+        string last_name = 2;  
+      }
+    ```
+    <p>This configuration file contains the context information. The numbers are just identifiers of the fields. Don't worry if the message format is a bit confusing — we’ll look into it in detail later. By using this configuration, we can send encoded data as: </p>
+    ```
+    124Arun226Kurian
+    ```
+    <p>In the case of 124Arun, 1 stands for the field identifier, 2 for the data type (which is the string), and 4 is the length of the text. I admit this is a bit more difficult to read than JSON; however, this will take very little space compared to JSON data.</p>
+ <h5> Message Format:</h5>
+<p>As we’ve seen before, the data is transmitted as Protobuf based on a configuration known as messages. The messages are kept in .proto files. Let's look at a message example:</p>
+    ```
+    syntax = "proto3";
+    message Person {
+      uint64 id = 1;
+      string email = 2;
+      bool is_active = 3;
+      enum PhoneType {
+        MOBILE = 0;
+        HOME = 1;
+        WORK = 2;
+      }
+       message PhoneNumber {
+        string number = 1;
+        PhoneType type = 2;
+       }
+
+      repeated PhoneNumber phones = 4;
+    }
+    ```
+  <p>From the above example, we can see a message is declared with a message keyword followed by the user-defined message name. The literals or the components are declared within the curly brackets. Each literal field can be divided into four components. They are:
+</p>
+<p></p>
+    <p></p>
+<p></p>
+    <p></p>
+<p></p>
+    <p></p>
+<p></p>
+    <p></p>
+
+
 
 
 
