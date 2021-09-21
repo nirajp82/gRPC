@@ -13,10 +13,11 @@ gRPC is a modern open source high performance Remote Procedure Call (RPC) framew
 Protocol Buffers (Protobuf) is a open source cross-platform library used to serialize structured data. It is useful in developing programs to communicate with each other over a network or for storing data. The method involves an interface description language that describes the structure of some data and a program that generates source code from that description for generating or parsing a stream of bytes that represents the structured data. Think XML, but protobuf is smaller, faster, and simpler.\
  <p> The primary purpose of Protocol Buffers is to facilitate network communication, its simplicity and speed make Protocol Buffers an alternative to data-centric classes and structs, especially where interoperability with other languages or systems might be needed in the future. </p>
  <p> The definition of the data to be serialized is written in configuration files called proto files (.proto). These files will contain the configurations known as messages. The proto files can be compiled to generate the code in the user's programming language. <p>
+  
 #### Key Features of Protocol Buffers
-  * *Binary transfer format*:\
-    The Protobuf is a binary transfer format, meaning the data is transmitted as a binary. This improves the speed of transmission more than the raw string because it takes less space and bandwidth. Since the data is compressed, the CPU usage will also be less.
-The only disadvantage is the Protobuf files or data isn’t as human-readable as JSON or XML
+  * <h5> Binary transfer format:</h5>
+    <p> The Protobuf is a binary transfer format, meaning the data is transmitted as a binary. This improves the speed of transmission more than the raw string because it takes less space and bandwidth. Since the data is compressed, the CPU usage will also be less. </p>
+    <p> The only disadvantage is the Protobuf files or data isn’t as human-readable as JSON or XML </p>
 
 
 
