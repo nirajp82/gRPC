@@ -39,30 +39,56 @@ Protocol Buffers (Protobuf) is a open source cross-platform library used to seri
     124Arun226Kurian
     ```
     <p>In the case of 124Arun, 1 stands for the field identifier, 2 for the data type (which is the string), and 4 is the length of the text. I admit this is a bit more difficult to read than JSON; however, this will take very little space compared to JSON data.</p>
- <h5> Message Format:</h5>
-<p>As we’ve seen before, the data is transmitted as Protobuf based on a configuration known as messages. The messages are kept in .proto files. Let's look at a message example:</p>
+
+<h5> Message Format:</h5>
+
+<p>As we’ve seen before, the data is transmitted as Protobuf based on a configuration known as messages. The messages are kept in .proto files. Let's look at a message example</p>
 
 <p> From the above example, we can see a message is declared with a message keyword followed by the user-defined message name. The literals or the components are declared within the curly brackets. Each literal field can be divided into four components. They are:</p>
+
 <h6>Field rule:</h6>
-<p>In the proto2 version of Protobuf, there were rules like required, optional, and repeated that were to be added before the field type or data type. This was optimized in proto3 and only the repeated rule is kept. A field is said to be repeated if the field represents an array of elements of the same type. If the field isn’t repeated, no rules should be added.
-</p>
+<p>In the proto2 version of Protobuf, there were rules like required, optional, and repeated that were to be added before the field type or data type. This was optimized in proto3 and only the repeated rule is kept. A field is said to be repeated if the field represents an array of elements of the same type. If the field isn’t repeated, no rules should be added.</p>
+
 <h6>Field types:</h6>
-   <p>
- The data types a field can hold fall into three categories.
+<p>The data types a field can hold fall into three categories.
 The first is the scalar data types, like strings and numbers. The second is an enum data type. In our example, this is PhoneType. And the final data type is an embedded message (like the PhoneNumber in our example).
-Like in JSON and XML, when using message types, we can build hierarchies of messages to represent data of any kind. The scalar data types available in Protobuf are float, int32, int64, uint32, uint64, sint32, sint64, fixed32, fixed64, sfixed32, sfixed6, bool, string, and bytes.
-</p>
+Like in JSON and XML, when using message types, we can build hierarchies of messages to represent data of any kind. The scalar data types available in Protobuf are float, int32, int64, uint32, uint64, sint32, sint64, fixed32, fixed64, sfixed32, sfixed6, bool, string, and bytes.</p>
+
 <h6>Field names:</h6>
 <p>When naming the fields in Protobuf, there are some conventions to be followed because these are assumed by the Protoc compiler as it generates code based on the .proto file for the language of your selection. The first convention is field names should all be in lowercase. Secondly, if there are multiple words in the field name, they should be separated by an underscore.</p>
-<h6>Field tags:</h6>
-    <p>The field tags are a numeric representation of the field, and this enables us to have richly defined field names in the definition without sending them through the wire.
-There are certain things to be considered when working with field tags. Firstly, the field tags must be unique inside a message. Secondly, they have to be integers. Thirdly, if a field is to be removed from the definition that’s already in use, its tag must be declared as reserved to prevent it from being redefined. Example: reserved 8;
-</p>
- 
-    <p></p>
-<p></p>
-    <p></p>
 
+<h6>Field tags:</h6>
+<p>The field tags are a numeric representation of the field, and this enables us to have richly defined field names in the definition without sending them through the wire.
+There are certain things to be considered when working with field tags. Firstly, the field tags must be unique inside a message. Secondly, they have to be integers. Thirdly, if a field is to be removed from the definition that’s already in use, its tag must be declared as reserved to prevent it from being redefined. Example: reserved 8; </p>
+
+### Service definition
+<p>Like many RPC systems, gRPC is based around the idea of defining a service, specifying the methods that can be called remotely with their parameters and return types. By default, gRPC uses protocol buffers as the Interface Definition Language (IDL) for describing both the service interface and the structure of the payload messages. It is possible to use other alternatives if desired.</p>
+<p>gRPC lets you define four kinds of service method:</p>
+<h5>Unary RPCs:</h5>
+<p>where the client sends a single request to the server and gets a single response back, just like a normal function call.</p>
+```
+rpc SayHello(HelloRequest) returns (HelloResponse);
+```
+<h5>Server streaming RPCs</h5>
+<p>where the client sends a request to the server and gets a stream to read a sequence of messages back. The client reads from the returned stream until there are no more messages. gRPC guarantees message ordering within an individual RPC call.</p>
+```
+rpc LotsOfReplies(HelloRequest) returns (stream HelloResponse);
+```
+<h5>Client streaming RPCs:</h5>
+<p>Where the client writes a sequence of messages and sends them to the server, again using a provided stream. Once the client has finished writing the messages, it waits for the server to read them and return its response. Again gRPC guarantees message ordering within an individual RPC call.</p>
+```
+rpc LotsOfGreetings(stream HelloRequest) returns (HelloResponse);
+```
+<h5>Bidirectional streaming RPCs:</h5>
+<p>where both sides send a sequence of messages using a read-write stream. The two streams operate independently, so clients and servers can read and write in whatever order they like: for example, the server could wait to receive all the client messages before writing its responses, or it could alternately read a message then write a message, or some other combination of reads and writes. The order of messages in each stream is preserved.</p>
+```
+rpc BidiHello(stream HelloRequest) returns (stream HelloResponse);
+```
+<h5></h5>
+<p></p>
+```
+
+```
 
 
 
