@@ -95,6 +95,18 @@ rpc BidiHello(stream HelloRequest) returns (stream HelloResponse);
 <p>Synchronous RPC calls that block until a response arrives from the server are the closest approximation to the abstraction of a procedure call that RPC aspires to. On the other hand, networks are inherently asynchronous and in many scenarios it’s useful to be able to start RPCs without blocking the current thread.</p>
 <p>The gRPC programming API in most languages comes in both synchronous and asynchronous flavors. You can find out more in each language’s tutorial and reference documentation.</p>
 
+
+### RPC life cycle
+  * <h5> Unary RPC: </h5> First consider the simplest type of RPC where the client sends a single request and gets back a single response.
+    * Once the client calls a stub method, the server is notified that the RPC has been invoked with the client’s metadata for this call, the method name, and the specified deadline if applicable.
+    * The server can then either send back its own initial metadata (which must be sent before any response) straight away, or wait for the client’s request message. Which happens first, is application-specific.
+    * Once the server has the client’s request message, it does whatever work is necessary to create and populate a response. The response is then returned (if successful) to the client together with status details (status code and optional status message) and optional trailing metadata.
+    * If the response status is OK, then the client gets the response, which completes the call on the client side.
+  * <h5>Server streaming RPC: </h5>
+  A server-streaming RPC is similar to a unary RPC, except that the server returns a stream of messages in response to a client’s request. After sending all its messages, the server’s status details (status code and optional status message) and optional trailing metadata are sent to the client. This completes processing on the server side. The client completes once it has all the server’s messages.
+
+
+
 <p></p>
 <p></p>
 
