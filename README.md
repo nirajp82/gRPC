@@ -41,26 +41,7 @@ Protocol Buffers (Protobuf) is a open source cross-platform library used to seri
     <p>In the case of 124Arun, 1 stands for the field identifier, 2 for the data type (which is the string), and 4 is the length of the text. I admit this is a bit more difficult to read than JSON; however, this will take very little space compared to JSON data.</p>
  <h5> Message Format:</h5>
 <p>As we’ve seen before, the data is transmitted as Protobuf based on a configuration known as messages. The messages are kept in .proto files. Let's look at a message example:</p>
-  ```
-  syntax = "proto3";
-  message Person {
-    uint64 id = 1;
-    string email = 2;
-    bool is_active = 3;
-    enum PhoneType {
-      MOBILE = 0;
-      HOME = 1;
-      WORK = 2;
-    }
-     message PhoneNumber {
-      string number = 1;
-      PhoneType type = 2;
-     }
 
-    repeated PhoneNumber phones = 4;
-  }
-  ```
-<br/>
 <p> From the above example, we can see a message is declared with a message keyword followed by the user-defined message name. The literals or the components are declared within the curly brackets. Each literal field can be divided into four components. They are:</p>
 <h6>Field rule:</h6>
 <p>In the proto2 version of Protobuf, there were rules like required, optional, and repeated that were to be added before the field type or data type. This was optimized in proto3 and only the repeated rule is kept. A field is said to be repeated if the field represents an array of elements of the same type. If the field isn’t repeated, no rules should be added.
