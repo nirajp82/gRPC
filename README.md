@@ -41,7 +41,7 @@ Protocol Buffers (Protobuf) is a open source cross-platform library used to seri
     <p>In the case of 124Arun, 1 stands for the field identifier, 2 for the data type (which is the string), and 4 is the length of the text. I admit this is a bit more difficult to read than JSON; however, this will take very little space compared to JSON data.</p>
  <h5> Message Format:</h5>
 <p>As we’ve seen before, the data is transmitted as Protobuf based on a configuration known as messages. The messages are kept in .proto files. Let's look at a message example:</p>
-    ```
+```
     syntax = "proto3";
     message Person {
       uint64 id = 1;
@@ -59,14 +59,26 @@ Protocol Buffers (Protobuf) is a open source cross-platform library used to seri
 
       repeated PhoneNumber phones = 4;
     }
-    ```
+```
+    
   <p>From the above example, we can see a message is declared with a message keyword followed by the user-defined message name. The literals or the components are declared within the curly brackets. Each literal field can be divided into four components. They are:
 </p>
-<p></p>
-    <p></p>
-<p></p>
-    <p></p>
-<p></p>
+<h6>Field rule:</h6>
+<p>In the proto2 version of Protobuf, there were rules like required, optional, and repeated that were to be added before the field type or data type. This was optimized in proto3 and only the repeated rule is kept. A field is said to be repeated if the field represents an array of elements of the same type. If the field isn’t repeated, no rules should be added.
+</p>
+<h6>Field types:</h6>
+   <p>
+ The data types a field can hold fall into three categories.
+The first is the scalar data types, like strings and numbers. The second is an enum data type. In our example, this is PhoneType. And the final data type is an embedded message (like the PhoneNumber in our example).
+Like in JSON and XML, when using message types, we can build hierarchies of messages to represent data of any kind. The scalar data types available in Protobuf are float, int32, int64, uint32, uint64, sint32, sint64, fixed32, fixed64, sfixed32, sfixed6, bool, string, and bytes.
+</p>
+<h6>Field names:</h6>
+<p>When naming the fields in Protobuf, there are some conventions to be followed because these are assumed by the Protoc compiler as it generates code based on the .proto file for the language of your selection. The first convention is field names should all be in lowercase. Secondly, if there are multiple words in the field name, they should be separated by an underscore.</p>
+<h6>Field tags:</h6>
+    <p>The field tags are a numeric representation of the field, and this enables us to have richly defined field names in the definition without sending them through the wire.
+There are certain things to be considered when working with field tags. Firstly, the field tags must be unique inside a message. Secondly, they have to be integers. Thirdly, if a field is to be removed from the definition that’s already in use, its tag must be declared as reserved to prevent it from being redefined. Example: reserved 8;
+</p>
+ 
     <p></p>
 <p></p>
     <p></p>
