@@ -4,6 +4,10 @@ gRPC is a modern open source high performance Remote Procedure Call (RPC) framew
 1. It is a method of web communication between services. 
 2. It relies on known configuration that is shared between the client and server, think of these like a contract. These contracts called Protocol buffers.
 3. gRPC communicates using Binary Stream instead of JSON or XML.
+4. More connection options. While REST focuses on request-response architecture, gRPC provides support for data streaming with event-driven architectures: server-side streaming, client-side streaming, and bidirectional streaming.\
+HTTP2 introduces fully asynchronous, multiplexing of requests by introducing concept of streams. Client and servers can both initiate multiple streams on a single underlying TCP connection. Yes, even the server can initiate a stream for transferring data which it anticipates will be required by the client. For e.g. when client request a web page, in addition to sending theHTML content the server can initiate a separate stream to transfer images or videos, that it knows will be required to render the full page. The figure below shows multiple streams, 0 to 4, communicating on a single TCP connection.
+6. HTTP/2 as the transport protocol
+
   #### Dis-advantage of using text representation of data over Binary Stream
     * require text encode/decode (which can be cheap, but is still an extra step)
     * requires complex parse code, especially if there are human-friendly rules like "must allow whitespace"
@@ -143,3 +147,4 @@ References:
 * https://en.wikipedia.org/wiki/Protocol_Buffers
 * https://betterprogramming.pub/understanding-protocol-buffers-43c5bced0d47
 * https://grpc.io/docs/what-is-grpc/core-concepts/
+* https://blog.netsil.com/http-2-and-grpc-the-next-generation-of-microservices-interactions-aff4ffa6faed
